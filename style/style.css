@@ -10,14 +10,6 @@ h1 {
   left: 40%;
   top: 20%;
 }
-.audio-container {
-  margin-top: 30px;
-  display: flex;
-  justify-content: center;
-}
-.audio-container audio {
-  background: none;
-}
 .container {
   width: 100%;
   display: flex;
@@ -51,7 +43,4 @@ td .circles {
   height: 30px;
   border: 1px solid black;
   border-radius: 100%;
-}
-td .er {
-  visibility: hidden;
 }
