@@ -1,28 +1,36 @@
 'use strict'
+let priority = true
+const tdList = document.querySelectorAll('td'),
+    table = document.querySelector('table')
 
-let iter = true
-let tdList = document.querySelectorAll('td')
-let table = document.querySelector('table')
 
+/* Intercept mouse click on td element */ 
+table.addEventListener('click', event => {
+    let td = event.target.closest('td')
+
+    if (!td || !table.contains(td)) return
+    addClass(td)
+})
 
  /* Add tic-tac-toe in turn when clicking on the field */
  function addClass(td) {
-    let tdClass = td.children['0'].classList
-    if (iter && tdClass[0] == undefined) {
+    let tdClass = td.firstChild.classList
+
+    if (priority && !tdClass.value) {
         tdClass.add('cross')
-        iter = false
-    } else if (!iter && tdClass[0] == undefined) {
+        priority = false
+    } else if (!priority && !tdClass.value) {
         tdClass.add('circles')
-        iter = true
+        priority = true
     }
     logic()
 }
 
 /* Game logic tic tac toe */
 function logic() {
-    let filledField = 0
-    let classCheckListCross = new Array(tdList.length)
-    let classCheckListCircles = new Array(tdList.length)
+    let filledField = 0,
+        classCheckListCross = new Array(tdList.length),
+        classCheckListCircles = new Array(tdList.length)
 
     for (let i = 0; i < tdList.length; i++) {
         classCheckListCross[i] = tdList[i].firstChild.classList.contains('cross')
@@ -56,8 +64,9 @@ function logic() {
     }
 
     /* Situation if all fields are filled, but there is no winner */
-    for (let i = 0; i < tdList.length; i++) {
-        filledField += tdList[i].firstChild.classList[0] != undefined ? 1 : 0
+    for (let td of tdList) {
+        filledField += td.firstChild.classList[0] ? 1 : 0
+        
         if (filledField === tdList.length) {
             alert('play again')
             setTimeout(clearField, 500)
@@ -67,14 +76,5 @@ function logic() {
 
 /* Сlear the fields to play again */
 function clearField() {
-    for (let i = 0; i < tdList.length; i++) tdList[i].firstChild.classList.remove('cross', 'circles')
-}
-
-
-/* Intercept mouse click on td element */ 
-table.onclick = event => {
-    let td = event.target.closest('td')
-    if (!td) return
-    if (!table.contains(td)) return
-    addClass(td)
+    for (let td of tdList) td.firstChild.classList.remove('cross', 'circles')
 }
