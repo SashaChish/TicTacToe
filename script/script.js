@@ -16,7 +16,7 @@ table.addEventListener('click', event => {
  /* Add tic-tac-toe in turn when clicking on the field */
  function addClass(td) {
     let tdClass = td.firstChild.classList
-    console.log(td.firstChild)
+
     if (cross && !tdClass.value) {
         tdClass.add('cross')
         cross = false
