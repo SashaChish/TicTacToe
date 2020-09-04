@@ -1,7 +1,8 @@
 'use strict'
-let priority = true
-const tdList = document.querySelectorAll('td'),
-    table = document.querySelector('table')
+
+
+const table = document.querySelector('table')
+let cross = true
 
 
 /* Intercept mouse click on td element */ 
@@ -15,22 +16,25 @@ table.addEventListener('click', event => {
  /* Add tic-tac-toe in turn when clicking on the field */
  function addClass(td) {
     let tdClass = td.firstChild.classList
-
-    if (priority && !tdClass.value) {
+    console.log(td.firstChild)
+    if (cross && !tdClass.value) {
         tdClass.add('cross')
-        priority = false
-    } else if (!priority && !tdClass.value) {
+        cross = false
+    } else if (!cross && !tdClass.value) {
         tdClass.add('circles')
-        priority = true
+        cross = true
     }
+
     logic()
 }
 
 /* Game logic tic tac toe */
 function logic() {
+    const tdList = table.querySelectorAll('td')
     let filledField = 0,
-        classCheckListCross = new Array(tdList.length),
-        classCheckListCircles = new Array(tdList.length)
+        classCheckListCross = [],
+        classCheckListCircles = []
+    
 
     for (let i = 0; i < tdList.length; i++) {
         classCheckListCross[i] = tdList[i].firstChild.classList.contains('cross')
@@ -44,37 +48,38 @@ function logic() {
         classCheckListCross[1] && classCheckListCross[4] && classCheckListCross[7] ||
         classCheckListCross[2] && classCheckListCross[5] && classCheckListCross[8] ||
         classCheckListCross[0] && classCheckListCross[4] && classCheckListCross[8] ||
-        classCheckListCross[2] && classCheckListCross[4] && classCheckListCross[6]
-        ) 
+        classCheckListCross[2] && classCheckListCross[4] && classCheckListCross[6]) 
     {
         alert('congratulations! cross win') 
         setTimeout(clearField, 500)
-    } else if (
-        classCheckListCircles[0] && classCheckListCircles[1] && classCheckListCircles[2] ||
+    } else if 
+        (classCheckListCircles[0] && classCheckListCircles[1] && classCheckListCircles[2] ||
         classCheckListCircles[3] && classCheckListCircles[4] && classCheckListCircles[5] ||
         classCheckListCircles[6] && classCheckListCircles[7] && classCheckListCircles[8] ||
         classCheckListCircles[0] && classCheckListCircles[3] && classCheckListCircles[6] ||
         classCheckListCircles[1] && classCheckListCircles[4] && classCheckListCircles[7] ||
         classCheckListCircles[2] && classCheckListCircles[5] && classCheckListCircles[8] ||
         classCheckListCircles[0] && classCheckListCircles[4] && classCheckListCircles[8] ||
-        classCheckListCircles[2] && classCheckListCircles[4] && classCheckListCircles[6]
-    ) {
+        classCheckListCircles[2] && classCheckListCircles[4] && classCheckListCircles[6]) 
+        {
         alert('congratulations! circles win') 
         setTimeout(clearField, 500)
     }
 
     /* Situation if all fields are filled, but there is no winner */
     for (let td of tdList) {
-        filledField += td.firstChild.classList[0] ? 1 : 0
-        
-        if (filledField === tdList.length) {
-            alert('play again')
-            setTimeout(clearField, 500)
-        }
+        filledField += td.firstChild.classList[0] ? 1 : 0        
+    }
+
+    if (filledField === tdList.length) {
+        alert('play again')
+        setTimeout(clearField, 500)
     }
 }
 
 /* Сlear the fields to play again */
 function clearField() {
+    const tdList = document.querySelectorAll('td')
+    
     for (let td of tdList) td.firstChild.classList.remove('cross', 'circles')
 }
